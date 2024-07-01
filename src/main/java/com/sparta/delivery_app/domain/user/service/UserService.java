@@ -1,7 +1,7 @@
 package com.sparta.delivery_app.domain.user.service;
 
 import com.sparta.delivery_app.common.exception.errorcode.UserErrorCode;
-import com.sparta.delivery_app.common.globalcustomexception.UserPasswordMismatchException;
+import com.sparta.delivery_app.common.globalcustomexception.user.UserPasswordMismatchException;
 import com.sparta.delivery_app.common.security.AuthenticationUser;
 import com.sparta.delivery_app.domain.user.adapter.PasswordHistoryAdapter;
 import com.sparta.delivery_app.domain.user.adapter.UserAdapter;

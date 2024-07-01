@@ -1,8 +1,7 @@
 package com.sparta.delivery_app.domain.review.entity;
 
 import com.sparta.delivery_app.common.exception.errorcode.ReviewErrorCode;
-import com.sparta.delivery_app.common.globalcustomexception.ReviewAccessDeniedException;
-import com.sparta.delivery_app.common.globalcustomexception.ReviewStatusException;
+import com.sparta.delivery_app.common.globalcustomexception.review.ReviewStatusException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

@@ -1,7 +1,7 @@
 package com.sparta.delivery_app.domain.order.entity;
 
 import com.sparta.delivery_app.common.exception.errorcode.OrderErrorCode;
-import com.sparta.delivery_app.common.globalcustomexception.OrderStatusException;
+import com.sparta.delivery_app.common.globalcustomexception.order.OrderStatusException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

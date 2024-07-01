@@ -1,8 +1,8 @@
 package com.sparta.delivery_app.domain.review.adapter;
 
 import com.sparta.delivery_app.common.exception.errorcode.ReviewErrorCode;
-import com.sparta.delivery_app.common.globalcustomexception.ReviewNotFoundException;
-import com.sparta.delivery_app.common.globalcustomexception.ReviewStatusException;
+import com.sparta.delivery_app.common.globalcustomexception.review.ReviewNotFoundException;
+import com.sparta.delivery_app.common.globalcustomexception.review.ReviewStatusException;
 import com.sparta.delivery_app.domain.review.entity.ReviewStatus;
 import com.sparta.delivery_app.domain.review.entity.UserReviews;
 import com.sparta.delivery_app.domain.review.repository.UserReviewsRepository;
@@ -23,20 +23,26 @@ public class UserReviewsAdapter {
     }
 
     /**
-     * 메뉴 id, 상태 검증
+     * 리뷰 id로 유효한 리뷰 찾기 (리뷰 Status 검증 기능 포함)
      */
-    public UserReviews checkValidReviewByIdAndReviewStatus(Long reviewId) {
+    public UserReviews findValidUserReview(Long reviewId) {
         UserReviews userReviews = findById(reviewId);
-
-        if(userReviews.getReviewStatus().equals(ReviewStatus.DISABLE)) {
-            throw new ReviewStatusException(ReviewErrorCode.DELETED_REVIEW);
-        }
+        checkValidByStatus(userReviews);
 
         return userReviews;
     }
 
     /**
-     * 리뷰 Id 검증
+     * 리뷰 Status 검증
+     */
+    private void checkValidByStatus(UserReviews userReviews) {
+        if(userReviews.getReviewStatus().equals(ReviewStatus.DISABLE)) {
+            throw new ReviewStatusException(ReviewErrorCode.DELETED_REVIEW);
+        }
+    }
+
+    /**
+     * 리뷰 Id로 리뷰 찾기
      */
     private UserReviews findById(Long reviewId) {
         return userReviewsRepository.findById(reviewId).orElseThrow(() ->

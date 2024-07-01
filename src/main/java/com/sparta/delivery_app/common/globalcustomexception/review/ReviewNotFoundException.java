@@ -1,11 +1,11 @@
-package com.sparta.delivery_app.common.globalcustomexception;
+package com.sparta.delivery_app.common.globalcustomexception.review;
 
 import com.sparta.delivery_app.common.exception.errorcode.ErrorCode;
 import com.sparta.delivery_app.common.globalcustomexception.global.GlobalNotFoundException;
 
-public class LikedNotFoundException extends GlobalNotFoundException {
+public class ReviewNotFoundException extends GlobalNotFoundException {
 
-    public LikedNotFoundException(ErrorCode errorCode) {
+    public ReviewNotFoundException(ErrorCode errorCode) {
         super(errorCode);
     }
 }

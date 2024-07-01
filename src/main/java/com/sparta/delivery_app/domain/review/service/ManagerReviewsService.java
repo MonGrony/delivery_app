@@ -1,10 +1,10 @@
 package com.sparta.delivery_app.domain.review.service;
 
 import com.sparta.delivery_app.common.exception.errorcode.ReviewErrorCode;
-import com.sparta.delivery_app.common.globalcustomexception.ReviewAccessDeniedException;
-import com.sparta.delivery_app.common.globalcustomexception.ReviewDuplicatedException;
-import com.sparta.delivery_app.common.globalcustomexception.ReviewNotFoundException;
-import com.sparta.delivery_app.common.globalcustomexception.ReviewStatusException;
+import com.sparta.delivery_app.common.globalcustomexception.review.ReviewAccessDeniedException;
+import com.sparta.delivery_app.common.globalcustomexception.review.ReviewDuplicatedException;
+import com.sparta.delivery_app.common.globalcustomexception.review.ReviewNotFoundException;
+import com.sparta.delivery_app.common.globalcustomexception.review.ReviewStatusException;
 import com.sparta.delivery_app.common.security.AuthenticationUser;
 import com.sparta.delivery_app.domain.order.adapter.OrderAdapter;
 import com.sparta.delivery_app.domain.order.entity.Order;

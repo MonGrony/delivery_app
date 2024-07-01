@@ -1,7 +1,7 @@
 package com.sparta.delivery_app.domain.menu.entity;
 
 import com.sparta.delivery_app.common.exception.errorcode.OrderErrorCode;
-import com.sparta.delivery_app.common.globalcustomexception.StoreMenuMismatchException;
+import com.sparta.delivery_app.common.globalcustomexception.store.StoreMenuMismatchException;
 import com.sparta.delivery_app.domain.commen.BaseTimeEntity;
 import com.sparta.delivery_app.domain.menu.dto.request.MenuAddRequestDto;
 import com.sparta.delivery_app.domain.menu.dto.request.MenuModifyRequestDto;

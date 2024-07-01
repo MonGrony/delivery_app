@@ -1,8 +1,8 @@
 package com.sparta.delivery_app.domain.review.adapter;
 
 import com.sparta.delivery_app.common.exception.errorcode.ReviewErrorCode;
-import com.sparta.delivery_app.common.globalcustomexception.ReviewNotFoundException;
-import com.sparta.delivery_app.common.globalcustomexception.ReviewStatusException;
+import com.sparta.delivery_app.common.globalcustomexception.review.ReviewNotFoundException;
+import com.sparta.delivery_app.common.globalcustomexception.review.ReviewStatusException;
 import com.sparta.delivery_app.domain.review.entity.ManagerReviews;
 import com.sparta.delivery_app.domain.review.entity.ManagerReviewsStatus;
 import com.sparta.delivery_app.domain.review.repository.ManagerReviewsRepository;

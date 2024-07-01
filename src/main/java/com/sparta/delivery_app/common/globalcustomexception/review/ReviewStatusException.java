@@ -1,10 +1,10 @@
-package com.sparta.delivery_app.common.globalcustomexception;
+package com.sparta.delivery_app.common.globalcustomexception.review;
 
 import com.sparta.delivery_app.common.exception.errorcode.ErrorCode;
 import com.sparta.delivery_app.common.globalcustomexception.global.GlobalStatusException;
 
-public class UserStatusException extends GlobalStatusException {
-    public UserStatusException(ErrorCode errorCode) {
+public class ReviewStatusException extends GlobalStatusException {
+    public ReviewStatusException(ErrorCode errorCode) {
         super(errorCode);
     }
 }

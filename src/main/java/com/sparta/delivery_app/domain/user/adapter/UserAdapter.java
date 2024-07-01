@@ -1,7 +1,7 @@
 package com.sparta.delivery_app.domain.user.adapter;
 
-import com.sparta.delivery_app.common.globalcustomexception.UserDuplicatedException;
-import com.sparta.delivery_app.common.globalcustomexception.UserNotExistException;
+import com.sparta.delivery_app.common.globalcustomexception.user.UserDuplicatedException;
+import com.sparta.delivery_app.common.globalcustomexception.user.UserNotExistException;
 import com.sparta.delivery_app.domain.user.entity.User;
 import com.sparta.delivery_app.domain.user.entity.UserStatus;
 import com.sparta.delivery_app.domain.user.repository.UserRepository;
@@ -25,7 +25,7 @@ public class UserAdapter {
         );
     }
 
-    /*
+    /**
      * @throws UserNotExistException if(회원가입을 하지 않은 경우)
      */
     public User checkManagerRole(Long userId) {

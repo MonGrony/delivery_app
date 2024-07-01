@@ -2,7 +2,7 @@ package com.sparta.delivery_app.domain.user.entity;
 
 import com.sparta.delivery_app.common.exception.errorcode.UserErrorCode;
 import com.sparta.delivery_app.common.globalcustomexception.UnableOpenStoreException;
-import com.sparta.delivery_app.common.globalcustomexception.UserStatusException;
+import com.sparta.delivery_app.common.globalcustomexception.user.UserStatusException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

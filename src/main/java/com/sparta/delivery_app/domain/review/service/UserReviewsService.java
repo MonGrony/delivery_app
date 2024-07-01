@@ -1,9 +1,9 @@
 package com.sparta.delivery_app.domain.review.service;
 
 import com.sparta.delivery_app.common.exception.errorcode.ReviewErrorCode;
-import com.sparta.delivery_app.common.globalcustomexception.ReviewAccessDeniedException;
-import com.sparta.delivery_app.common.globalcustomexception.ReviewDuplicatedException;
-import com.sparta.delivery_app.common.globalcustomexception.ReviewNotFoundException;
+import com.sparta.delivery_app.common.globalcustomexception.review.ReviewAccessDeniedException;
+import com.sparta.delivery_app.common.globalcustomexception.review.ReviewDuplicatedException;
+import com.sparta.delivery_app.common.globalcustomexception.review.ReviewNotFoundException;
 import com.sparta.delivery_app.common.globalcustomexception.S3Exception;
 import com.sparta.delivery_app.common.security.AuthenticationUser;
 import com.sparta.delivery_app.domain.order.adapter.OrderAdapter;
@@ -122,7 +122,7 @@ public class UserReviewsService {
         User userData = userAdaptor.queryUserByEmailAndStatus(user.getUsername());
 
         // 리뷰ID 존재하는지 확인 + 이미 삭제가 되었는지 확인
-        UserReviews userReviews = userReviewsAdaptor.checkValidReviewByIdAndReviewStatus(reviewId);
+        UserReviews userReviews = userReviewsAdaptor.findValidUserReview(reviewId);
 
         if (!userReviews.getUser().getId().equals(userData.getId())) {
             throw new ReviewAccessDeniedException(ReviewErrorCode.NOT_AUTHORITY_TO_DELETE_REVIEW);

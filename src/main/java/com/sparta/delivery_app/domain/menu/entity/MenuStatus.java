@@ -1,7 +1,7 @@
 package com.sparta.delivery_app.domain.menu.entity;
 
 import com.sparta.delivery_app.common.exception.errorcode.MenuErrorCode;
-import com.sparta.delivery_app.common.globalcustomexception.MenuNotFoundException;
+import com.sparta.delivery_app.common.globalcustomexception.menu.MenuNotFoundException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

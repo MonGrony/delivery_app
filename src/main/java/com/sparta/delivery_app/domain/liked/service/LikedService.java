@@ -1,8 +1,8 @@
 package com.sparta.delivery_app.domain.liked.service;
 
 import com.sparta.delivery_app.common.exception.errorcode.LikedErrorCode;
-import com.sparta.delivery_app.common.globalcustomexception.LikedDuplicatedException;
-import com.sparta.delivery_app.common.globalcustomexception.LikedNotFoundException;
+import com.sparta.delivery_app.common.globalcustomexception.liked.LikedDuplicatedException;
+import com.sparta.delivery_app.common.globalcustomexception.liked.LikedNotFoundException;
 import com.sparta.delivery_app.common.security.AuthenticationUser;
 import com.sparta.delivery_app.domain.liked.adapter.LikedAdapter;
 import com.sparta.delivery_app.domain.liked.entity.Liked;
