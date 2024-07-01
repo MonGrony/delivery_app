@@ -4,6 +4,7 @@ import com.sparta.delivery_app.domain.commen.BaseTimeEntity;
 import com.sparta.delivery_app.domain.liked.entity.Liked;
 import com.sparta.delivery_app.domain.review.entity.ManagerReviews;
 import com.sparta.delivery_app.domain.review.entity.UserReviews;
+import com.sparta.delivery_app.domain.thanks.entity.Thanks;
 import com.sparta.delivery_app.domain.user.dto.request.ConsumersSignupRequestDto;
 import com.sparta.delivery_app.domain.user.dto.request.ManagersSignupRequestDto;
 import com.sparta.delivery_app.domain.user.dto.request.UserProfileModifyRequestDto;
@@ -38,16 +39,19 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String userAddress;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",  fetch = FetchType.LAZY)
     private List<Liked> likedList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Thanks> thanksList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",  fetch = FetchType.LAZY)
     private List<UserReviews> userReviewList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",  fetch = FetchType.LAZY)
     private List<ManagerReviews> managerReviewList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",  fetch = FetchType.LAZY)
     private List<PasswordHistory> passwordHistoryList = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
