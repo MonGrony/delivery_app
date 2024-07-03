@@ -11,8 +11,6 @@ import java.util.Optional;
 
 public interface UserReviewsRepository extends JpaRepository<UserReviews, Long>, UserReviewsQueryRepository {
 
-    Optional<Long> findManagerReviewIdById(Long reviewId);
-
     Page<UserReviews> findAllByReviewStatus(Pageable pageable, ReviewStatus reviewStatus);
 
 }

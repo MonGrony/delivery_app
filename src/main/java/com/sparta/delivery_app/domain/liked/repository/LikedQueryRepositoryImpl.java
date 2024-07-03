@@ -1,7 +1,5 @@
 package com.sparta.delivery_app.domain.liked.repository;
 
-import com.querydsl.core.Fetchable;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sparta.delivery_app.domain.review.entity.ReviewStatus;

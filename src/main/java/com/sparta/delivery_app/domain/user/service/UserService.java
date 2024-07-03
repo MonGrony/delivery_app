@@ -152,8 +152,6 @@ public class UserService {
         User profileUser = userAdapter.queryUserByEmailAndStatus(requestDto.getEmail());
 
         //간단 프로필 불러오기
-        //userNickname, likeCount, reviewCount, thanksCount 를 responseDto 에 담아서 반환
-
         SimpleProfileElements elements = new SimpleProfileElements(
                 profileUser.getNickName(),
                 likedAdapter.queryAllLikeCountByUser(profileUser),
