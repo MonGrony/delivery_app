@@ -3,8 +3,14 @@ package com.sparta.delivery_app.domain.user.service;
 import com.sparta.delivery_app.common.exception.errorcode.UserErrorCode;
 import com.sparta.delivery_app.common.globalcustomexception.user.UserPasswordMismatchException;
 import com.sparta.delivery_app.common.security.AuthenticationUser;
+import com.sparta.delivery_app.domain.liked.adapter.LikedAdapter;
+import com.sparta.delivery_app.domain.review.adapter.UserReviewsAdapter;
+import com.sparta.delivery_app.domain.thanks.adapter.ThanksAdapter;
 import com.sparta.delivery_app.domain.user.adapter.PasswordHistoryAdapter;
 import com.sparta.delivery_app.domain.user.adapter.UserAdapter;
+import com.sparta.delivery_app.domain.user.dto.SimpleProfileElements;
+import com.sparta.delivery_app.domain.user.dto.request.UserSimpleProfileRequestDto;
+import com.sparta.delivery_app.domain.user.dto.response.UserProfileResponseDto;
 import com.sparta.delivery_app.domain.user.dto.request.*;
 import com.sparta.delivery_app.domain.user.dto.response.ConsumersSignupResponseDto;
 import com.sparta.delivery_app.domain.user.dto.response.ManagersSignupResponseDto;
@@ -28,9 +34,13 @@ public class UserService {
     private final UserAdapter userAdapter;
     private final PasswordHistoryAdapter passwordHistoryAdapter;
     private final PasswordEncoder passwordEncoder;
+    private final LikedAdapter likedAdapter;
+    private final UserReviewsAdapter userReviewsAdapter;
+    private final ThanksAdapter thanksAdapter;
 
     /**
      * consumers 회원가입
+     *
      * @param requestDto
      * @return 회원가입 정보 email, nickname
      */
@@ -51,6 +61,7 @@ public class UserService {
 
     /**
      * manager 회원가입
+     *
      * @param requestDto
      * @return 회원가입 정보 email, nickname
      */
@@ -70,6 +81,7 @@ public class UserService {
 
     /**
      * 회원탈퇴
+     *
      * @param user
      * @param userResignRequestDto
      */
@@ -88,12 +100,13 @@ public class UserService {
 
     /**
      * 프로필 수정
+     *
      * @param user
      * @param requestDto
      * @return 회원가입 정보 email, name, address
      */
     @Transactional
-    public UserProfileModifyResponseDto modifyProfileUser(AuthenticationUser user,final  UserProfileModifyRequestDto requestDto) {
+    public UserProfileModifyResponseDto modifyProfileUser(AuthenticationUser user, final UserProfileModifyRequestDto requestDto) {
         User findUser = userAdapter.queryUserByEmailAndStatus(user.getUsername());
         PasswordHistory passwordHistory = passwordHistoryAdapter.queryPasswordHistoryTop1ByUser(findUser);
 
@@ -108,6 +121,7 @@ public class UserService {
 
     /**
      * 비밀번호 수정
+     *
      * @param user
      * @param requestDto
      */
@@ -129,5 +143,24 @@ public class UserService {
 
         PasswordHistory passwordHistory = PasswordHistory.savePasswordHistory(findUser, passwordEncoder.encode(requestDto.newPassword()));
         passwordHistoryAdapter.savePasswordHistory(passwordHistory);
+    }
+
+    public UserProfileResponseDto userSimpleProfile(AuthenticationUser user, UserSimpleProfileRequestDto requestDto) {
+        //로그인 유저 검증
+        userAdapter.queryUserByEmailAndStatus(user.getUsername());
+        //프로필 조회될 유저 검증
+        User profileUser = userAdapter.queryUserByEmailAndStatus(requestDto.getEmail());
+
+        //간단 프로필 불러오기
+        //userNickname, likeCount, reviewCount, thanksCount 를 responseDto 에 담아서 반환
+
+        SimpleProfileElements elements = new SimpleProfileElements(
+                profileUser.getNickName(),
+                likedAdapter.queryAllLikeCountByUser(profileUser),
+                userReviewsAdapter.queryAllReviewCountByUser(profileUser),
+                thanksAdapter.queryAllThanksCountByUser(profileUser)
+        );
+
+        return UserProfileResponseDto.of(elements);
     }
 }

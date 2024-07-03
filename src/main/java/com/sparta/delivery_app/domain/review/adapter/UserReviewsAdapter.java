@@ -6,6 +6,7 @@ import com.sparta.delivery_app.common.globalcustomexception.review.ReviewStatusE
 import com.sparta.delivery_app.domain.review.entity.ReviewStatus;
 import com.sparta.delivery_app.domain.review.entity.UserReviews;
 import com.sparta.delivery_app.domain.review.repository.UserReviewsRepository;
+import com.sparta.delivery_app.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -54,5 +55,14 @@ public class UserReviewsAdapter {
      */
     public void deleteTempReview(UserReviews tempReview) {
         userReviewsRepository.delete(tempReview);
+    }
+
+    /**
+     *
+     * 개인 리뷰 전체 조회
+     */
+    public Long queryAllReviewCountByUser(User user) {
+        return userReviewsRepository.findPersonalReviewsAllCount(user);
+
     }
 }

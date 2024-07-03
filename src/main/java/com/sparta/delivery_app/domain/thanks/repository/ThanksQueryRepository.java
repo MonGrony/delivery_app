@@ -8,4 +8,6 @@ import org.springframework.data.domain.Pageable;
 public interface ThanksQueryRepository {
 
     Page<Thanks> findPersonalThanksAll(User user, Pageable pageable);
+
+    Long findPersonalThanksAllCount(User user);
 }

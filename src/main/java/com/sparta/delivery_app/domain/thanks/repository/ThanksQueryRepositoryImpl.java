@@ -37,6 +37,16 @@ public class ThanksQueryRepositoryImpl implements ThanksQueryRepository {
         return PageableExecutionUtils.getPage(result, pageable, () -> total);
 
     }
+    @Override
+    public Long findPersonalThanksAllCount(User user) {
+        return jpaQueryFactory
+                .select(thanks.count())
+                .from(thanks)
+                .leftJoin(thanks.user).fetchJoin()
+                .leftJoin(thanks.userReviews).fetchJoin()
+                .where(userIdEq(user.getId()))
+                .fetchOne();
+    }
 
     private <T> JPAQuery<T> query(Expression<T> expression, User user) {
         return jpaQueryFactory

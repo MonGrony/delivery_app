@@ -69,20 +69,19 @@ public class ThanksService {
         Pageable pageable = PageUtil.createPageable(pageNum, PAGE_SIZE_FIVE, isDesc);
 
         //5개씩 페이징 처리한 thanks List(최신순) 가지고 오기
-        return thanksAdapter.queryUserThanksPage(findUser,pageable);
+        return thanksAdapter.queryUserThanksPage(findUser, pageable); //null 체크 필요 isNull
     }
 
-        // 응답정보는 댓글 목록조회(없음)의 응답정보와 동일
+    //리뷰 단 건 조회시 몇 개나 도움이 된다고 눌렸는지 (몇 명이 눌렀는지) 알 수 있도록 개수필드 추가
 
-        //프로필에 내가 좋아요한 게시글 수/댓글 수 응답필드 추가하기
+    // 리뷰 service 에서 예정인 것
+    // 리뷰가 삭제될 경우 리뷰 자체 status 는 바뀌니까 상관없는데
+    // profile 에서 조회시 안 보이게 해야함 (review status 에 따라 반영)
 
-        //리뷰 단 건 조회시 몇 개나 도움이 된다고 눌렸는지 (몇 명이 눌렀는지) 알 수 있도록 개수필드 추가
-
-        // 리뷰 service 에서 예정인 것
-        // 리뷰가 삭제될 경우 리뷰 자체 status 는 바뀌니까 상관없는데
-        // profile 에서 조회시 안 보이게 해야함 (review status 에 따라 반영)
-        // 테스트 코드 작성 - queryDSL
-        // DB 접근은 queryDsl 이용 - testCode 에서 / repository 도?
+//            - 댓글 단건 정보 조회시 댓글의 좋아요 개수필드를 추가합니다.
+//
+//
+//    테스트 코드 작성 - queryDsl 이용
 
 
 }

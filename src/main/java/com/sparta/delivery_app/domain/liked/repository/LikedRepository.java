@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface LikedRepository extends JpaRepository<Liked, Long> {
+public interface LikedRepository extends JpaRepository<Liked, Long>, LikedQueryRepository {
     boolean existsByStoreAndUser(Store store, User user);
 
     Optional<Liked> findByStoreId(Long storeId);

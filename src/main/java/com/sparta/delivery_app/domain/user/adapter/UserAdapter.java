@@ -10,7 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import static com.sparta.delivery_app.common.exception.errorcode.UserErrorCode.*;
+import static com.sparta.delivery_app.common.exception.errorcode.UserErrorCode.DUPLICATED_USER;
+import static com.sparta.delivery_app.common.exception.errorcode.UserErrorCode.NOT_SIGNED_UP_USER;
 
 @Component
 @RequiredArgsConstructor

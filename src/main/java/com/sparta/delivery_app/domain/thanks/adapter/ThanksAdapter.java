@@ -17,4 +17,8 @@ public class ThanksAdapter {
     public Page<Thanks> queryUserThanksPage(User user, Pageable pageable) {
         return thanksRepository.findPersonalThanksAll(user, pageable);
     }
+
+    public Long queryAllThanksCountByUser(User user) {
+        return thanksRepository.findPersonalThanksAllCount(user);
+    }
 }

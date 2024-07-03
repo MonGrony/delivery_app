@@ -31,4 +31,8 @@ public class LikedAdapter {
     public boolean existsByStoreAndUser(Store store, User user) {
         return likedRepository.existsByStoreAndUser(store, user);
     }
+
+    public Long queryAllLikeCountByUser(User user) {
+        return likedRepository.findPersonalLikeAllCount(user);
+    }
 }
