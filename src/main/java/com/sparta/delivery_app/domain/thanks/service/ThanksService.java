@@ -1,7 +1,6 @@
 package com.sparta.delivery_app.domain.thanks.service;
 
 import com.sparta.delivery_app.common.exception.errorcode.ThanksErrorCode;
-import com.sparta.delivery_app.common.globalcustomexception.thanks.ThanksAlreadyException;
 import com.sparta.delivery_app.common.globalcustomexception.thanks.ThanksSelfException;
 import com.sparta.delivery_app.common.security.AuthenticationUser;
 import com.sparta.delivery_app.domain.commen.page.util.PageUtil;
@@ -29,38 +28,14 @@ public class ThanksService {
     private final ThanksAdapter thanksAdapter;
 
     // 로그인한 유저가 고르다가 도움이 되는 리뷰를 보고 도움이 돼요를 누른 상태
-    public void addOrDeleteThanks(AuthenticationUser user, Long reviewId) {
+    public void addOrCancelThanks(AuthenticationUser user, Long reviewId) {
 
         UserReviews findUserReview = userReviewsAdapter.findValidUserReview(reviewId);
         User loginUser = userAdapter.queryUserByEmailAndStatus(user.getUsername());
         User reviewUser = findUserReview.getUser();
-        // 동일인인지 확인 -> 동일인이면 등록 불가
-        if (reviewUser.getId().equals(loginUser.getId())) {
-            throw new ThanksSelfException(ThanksErrorCode.THANKS_ONLY_BY_OTHERS);
-        }
-        //  loginUser 의 도움이 돼요 list 에 이미 등록된 review 인지 확인 -> 취소 or 등록 적용
 
-        boolean isCanceled = false;
-        try {
-            Thanks enrolledThanks = loginUser.getThanksList().stream()
-                    .filter(thanks -> thanks.getUserReviews().getId()
-                            .equals(reviewId)).findFirst().orElseThrow(
-                            () -> new ThanksAlreadyException(ThanksErrorCode.ALREADY_THANKS));
-
-            Thanks.cancelThanks(loginUser, enrolledThanks);
-
-        } catch (ThanksAlreadyException e) {
-
-            if (!isCanceled) {
-                Thanks thanks = Thanks.builder()
-                        .userReviews(findUserReview)
-                        .user(loginUser)
-                        .build();
-                loginUser.getThanksList().add(thanks);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        checkUserHimself(reviewUser, loginUser);
+        ThanksServiceSupport.addOrCancel(loginUser, reviewId, findUserReview);
     }
 
     //도움이 돼요 목록 조회
@@ -72,7 +47,12 @@ public class ThanksService {
         return thanksAdapter.queryUserThanksPage(findUser, pageable); //null 체크 필요 isNull
     }
 
-//    테스트 코드 작성 - queryDsl 이용
+    // 동일인인지 확인 -> 동일인이면 등록 불가
+    private void checkUserHimself(User reviewUser, User loginUser) {
+        if (reviewUser.getId().equals(loginUser.getId())) {
+            throw new ThanksSelfException(ThanksErrorCode.THANKS_ONLY_BY_OTHERS);
+        }
+    }
 
 }
 

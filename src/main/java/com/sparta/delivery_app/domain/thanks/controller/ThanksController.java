@@ -37,7 +37,7 @@ public class ThanksController {
             @AuthenticationPrincipal AuthenticationUser user,
             @PathVariable final Long reviewId) {
 
-        thanksService.addOrDeleteThanks(user, reviewId);
+        thanksService.addOrCancelThanks(user, reviewId);
         return ResponseEntity.status(StatusCode.CREATED.code)
                 .body(RestApiResponse.of("도움이 된 리뷰로 등록되었습니다."));
     }

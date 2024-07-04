@@ -150,7 +150,13 @@ public class UserReviewsService {
         //리뷰 출처 매장
         Store findStore = storeAdapter.queryStoreByReviewId(reviewId);
         //responseDto 채우기
-        SpecificReviewElements elements = new SpecificReviewElements(
+        SpecificReviewElements elements = setElements(findReview, reviewer, findStore);
+
+        return SpecificReviewResponseDto.of(elements);
+    }
+
+    private SpecificReviewElements setElements(UserReviews findReview, User reviewer, Store findStore) {
+        return new SpecificReviewElements(
                 findReview.getContent(),
                 findReview.getReviewImagePath(),
                 findReview.getRating(),
@@ -158,6 +164,5 @@ public class UserReviewsService {
                 findReview.getUser().getNickName(),
                 thanksAdapter.queryAllThanksCountByUser(reviewer)
         );
-        return SpecificReviewResponseDto.of(elements);
     }
 }
