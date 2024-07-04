@@ -3,14 +3,12 @@ package com.sparta.delivery_app.domain.thanks.entity;
 import com.sparta.delivery_app.domain.review.entity.UserReviews;
 import com.sparta.delivery_app.domain.user.entity.User;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Table(name = "reviews_thanks")
 public class Thanks {
 
@@ -34,8 +32,9 @@ public class Thanks {
     }
 
     public static void cancelThanks(User loginUser, Thanks thanks) {
-        loginUser.getThanksList().remove(thanks);
+        if (loginUser != null && loginUser.getThanksList() != null) {
+            loginUser.getThanksList().remove(thanks);
+        }
     }
-
 
 }
