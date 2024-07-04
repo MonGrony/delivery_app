@@ -57,8 +57,8 @@ public class ThanksController {
                 .body(RestApiResponse.of("성공", userThankList));
     }
 
-    /**
-     * 리뷰별 단건 조회 -> 도움이 돼요 를 몇 명이 눌렀는지 확인 가능
-     */
+
+
+
 
 }

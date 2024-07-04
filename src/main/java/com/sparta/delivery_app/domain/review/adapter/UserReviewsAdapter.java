@@ -34,15 +34,6 @@ public class UserReviewsAdapter {
     }
 
     /**
-     * 리뷰 Status 검증
-     */
-    private void checkValidByStatus(UserReviews userReviews) {
-        if(userReviews.getReviewStatus().equals(ReviewStatus.DISABLE)) {
-            throw new ReviewStatusException(ReviewErrorCode.DELETED_REVIEW);
-        }
-    }
-
-    /**
      * 리뷰 Id로 리뷰 찾기
      */
     private UserReviews findById(Long reviewId) {
@@ -64,5 +55,14 @@ public class UserReviewsAdapter {
     public Long queryAllReviewCountByUser(User user) {
         return userReviewsRepository.findPersonalReviewsAllCount(user);
 
+    }
+
+    /**
+     * 리뷰 Status 검증
+     */
+    private void checkValidByStatus(UserReviews userReviews) {
+        if(userReviews.getReviewStatus().equals(ReviewStatus.DISABLE)) {
+            throw new ReviewStatusException(ReviewErrorCode.DELETED_REVIEW);
+        }
     }
 }

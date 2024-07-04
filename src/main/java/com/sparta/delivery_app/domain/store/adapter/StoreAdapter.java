@@ -4,6 +4,7 @@ import com.sparta.delivery_app.common.exception.errorcode.StoreErrorCode;
 import com.sparta.delivery_app.common.globalcustomexception.store.StoreDuplicatedException;
 import com.sparta.delivery_app.common.globalcustomexception.store.StoreNotFoundException;
 import com.sparta.delivery_app.common.globalcustomexception.store.StoreRegisteredHistoryException;
+import com.sparta.delivery_app.domain.review.entity.UserReviews;
 import com.sparta.delivery_app.domain.store.dto.request.RegisterStoreRequestDto;
 import com.sparta.delivery_app.domain.store.entity.Store;
 import com.sparta.delivery_app.domain.store.repository.StoreRepository;
@@ -70,5 +71,10 @@ public class StoreAdapter {
         }
 
         return store.get();
+    }
+
+    public Store queryStoreByReviewId(Long reviewId) {
+        return storeRepository.findByStoreByReviewId(reviewId);
+
     }
 }

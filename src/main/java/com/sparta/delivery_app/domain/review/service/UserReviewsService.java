@@ -10,18 +10,25 @@ import com.sparta.delivery_app.domain.order.adapter.OrderAdapter;
 import com.sparta.delivery_app.domain.order.entity.Order;
 import com.sparta.delivery_app.domain.order.entity.OrderStatus;
 import com.sparta.delivery_app.domain.review.adapter.UserReviewsAdapter;
+import com.sparta.delivery_app.domain.review.dto.SpecificReviewElements;
+import com.sparta.delivery_app.domain.review.dto.SpecificReviewResponseDto;
 import com.sparta.delivery_app.domain.review.dto.request.UserReviewAddRequestDto;
 import com.sparta.delivery_app.domain.review.dto.request.UserReviewModifyRequestDto;
 import com.sparta.delivery_app.domain.review.dto.response.UserReviewAddResponseDto;
 import com.sparta.delivery_app.domain.review.dto.response.UserReviewModifyResponseDto;
+import com.sparta.delivery_app.domain.review.entity.ManagerReviews;
 import com.sparta.delivery_app.domain.review.entity.ReviewStatus;
 import com.sparta.delivery_app.domain.review.entity.UserReviews;
 import com.sparta.delivery_app.domain.s3.service.S3Uploader;
 import com.sparta.delivery_app.domain.s3.util.S3Utils;
+import com.sparta.delivery_app.domain.store.adapter.StoreAdapter;
+import com.sparta.delivery_app.domain.store.entity.Store;
+import com.sparta.delivery_app.domain.thanks.adapter.ThanksAdapter;
 import com.sparta.delivery_app.domain.user.adapter.UserAdapter;
 import com.sparta.delivery_app.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.Manager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +42,8 @@ public class UserReviewsService {
     private final OrderAdapter orderAdaptor;
     private final UserAdapter userAdaptor;
     private final S3Uploader s3Uploader;
+    private final ThanksAdapter thanksAdapter;
+    private final StoreAdapter storeAdapter;
 
 
     @Transactional
@@ -129,5 +138,26 @@ public class UserReviewsService {
         }
 
         userReviews.deleteReview();
+    }
+
+    public SpecificReviewResponseDto getSpecificReview(AuthenticationUser user, Long reviewId) {
+        //로그인 유저 검증
+        userAdaptor.queryUserByEmailAndStatus(user.getUsername());
+        //리뷰 검증
+        UserReviews findReview = userReviewsAdaptor.findValidUserReview(reviewId);
+        //리뷰 작성자
+        User reviewer = findReview.getUser();
+        //리뷰 출처 매장
+        Store findStore = storeAdapter.queryStoreByReviewId(reviewId);
+        //responseDto 채우기
+        SpecificReviewElements elements = new SpecificReviewElements(
+                findReview.getContent(),
+                findReview.getReviewImagePath(),
+                findReview.getRating(),
+                findStore.getId(),
+                findReview.getUser().getNickName(),
+                thanksAdapter.queryAllThanksCountByUser(reviewer)
+        );
+        return SpecificReviewResponseDto.of(elements);
     }
 }

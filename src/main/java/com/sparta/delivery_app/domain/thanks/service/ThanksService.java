@@ -72,17 +72,7 @@ public class ThanksService {
         return thanksAdapter.queryUserThanksPage(findUser, pageable); //null 체크 필요 isNull
     }
 
-    //리뷰 단 건 조회시 몇 개나 도움이 된다고 눌렸는지 (몇 명이 눌렀는지) 알 수 있도록 개수필드 추가
-
-    // 리뷰 service 에서 예정인 것
-    // 리뷰가 삭제될 경우 리뷰 자체 status 는 바뀌니까 상관없는데
-    // profile 에서 조회시 안 보이게 해야함 (review status 에 따라 반영)
-
-//            - 댓글 단건 정보 조회시 댓글의 좋아요 개수필드를 추가합니다.
-//
-//
 //    테스트 코드 작성 - queryDsl 이용
-
 
 }
 
