@@ -1,7 +1,7 @@
 package com.sparta.delivery_app.domain.store.entity;
 
 import com.sparta.delivery_app.common.exception.errorcode.StoreErrorCode;
-import com.sparta.delivery_app.common.globalcustomexception.StoreNotFoundException;
+import com.sparta.delivery_app.common.globalcustomexception.store.StoreNotFoundException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

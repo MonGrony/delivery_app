@@ -1,8 +1,8 @@
 package com.sparta.delivery_app.domain.order.adapter;
 
 import com.sparta.delivery_app.common.exception.errorcode.OrderErrorCode;
-import com.sparta.delivery_app.common.globalcustomexception.OrderAccessDeniedException;
-import com.sparta.delivery_app.common.globalcustomexception.OrderNotFoundException;
+import com.sparta.delivery_app.common.globalcustomexception.order.OrderAccessDeniedException;
+import com.sparta.delivery_app.common.globalcustomexception.order.OrderNotFoundException;
 import com.sparta.delivery_app.domain.order.entity.Order;
 import com.sparta.delivery_app.domain.order.entity.OrderStatus;
 import com.sparta.delivery_app.domain.order.repository.OrderRepository;

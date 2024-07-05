@@ -1,27 +1,34 @@
 package com.sparta.delivery_app.domain.review.service;
 
 import com.sparta.delivery_app.common.exception.errorcode.ReviewErrorCode;
-import com.sparta.delivery_app.common.globalcustomexception.ReviewAccessDeniedException;
-import com.sparta.delivery_app.common.globalcustomexception.ReviewDuplicatedException;
-import com.sparta.delivery_app.common.globalcustomexception.ReviewNotFoundException;
+import com.sparta.delivery_app.common.globalcustomexception.review.ReviewAccessDeniedException;
+import com.sparta.delivery_app.common.globalcustomexception.review.ReviewDuplicatedException;
+import com.sparta.delivery_app.common.globalcustomexception.review.ReviewNotFoundException;
 import com.sparta.delivery_app.common.globalcustomexception.S3Exception;
 import com.sparta.delivery_app.common.security.AuthenticationUser;
 import com.sparta.delivery_app.domain.order.adapter.OrderAdapter;
 import com.sparta.delivery_app.domain.order.entity.Order;
 import com.sparta.delivery_app.domain.order.entity.OrderStatus;
 import com.sparta.delivery_app.domain.review.adapter.UserReviewsAdapter;
+import com.sparta.delivery_app.domain.review.dto.SpecificReviewElements;
+import com.sparta.delivery_app.domain.review.dto.SpecificReviewResponseDto;
 import com.sparta.delivery_app.domain.review.dto.request.UserReviewAddRequestDto;
 import com.sparta.delivery_app.domain.review.dto.request.UserReviewModifyRequestDto;
 import com.sparta.delivery_app.domain.review.dto.response.UserReviewAddResponseDto;
 import com.sparta.delivery_app.domain.review.dto.response.UserReviewModifyResponseDto;
+import com.sparta.delivery_app.domain.review.entity.ManagerReviews;
 import com.sparta.delivery_app.domain.review.entity.ReviewStatus;
 import com.sparta.delivery_app.domain.review.entity.UserReviews;
 import com.sparta.delivery_app.domain.s3.service.S3Uploader;
 import com.sparta.delivery_app.domain.s3.util.S3Utils;
+import com.sparta.delivery_app.domain.store.adapter.StoreAdapter;
+import com.sparta.delivery_app.domain.store.entity.Store;
+import com.sparta.delivery_app.domain.thanks.adapter.ThanksAdapter;
 import com.sparta.delivery_app.domain.user.adapter.UserAdapter;
 import com.sparta.delivery_app.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.Manager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +42,8 @@ public class UserReviewsService {
     private final OrderAdapter orderAdaptor;
     private final UserAdapter userAdaptor;
     private final S3Uploader s3Uploader;
+    private final ThanksAdapter thanksAdapter;
+    private final StoreAdapter storeAdapter;
 
 
     @Transactional
@@ -122,12 +131,38 @@ public class UserReviewsService {
         User userData = userAdaptor.queryUserByEmailAndStatus(user.getUsername());
 
         // 리뷰ID 존재하는지 확인 + 이미 삭제가 되었는지 확인
-        UserReviews userReviews = userReviewsAdaptor.checkValidReviewByIdAndReviewStatus(reviewId);
+        UserReviews userReviews = userReviewsAdaptor.findValidUserReview(reviewId);
 
         if (!userReviews.getUser().getId().equals(userData.getId())) {
             throw new ReviewAccessDeniedException(ReviewErrorCode.NOT_AUTHORITY_TO_DELETE_REVIEW);
         }
 
         userReviews.deleteReview();
+    }
+
+    public SpecificReviewResponseDto getSpecificReview(AuthenticationUser user, Long reviewId) {
+        //로그인 유저 검증
+        userAdaptor.queryUserByEmailAndStatus(user.getUsername());
+        //리뷰 검증
+        UserReviews findReview = userReviewsAdaptor.findValidUserReview(reviewId);
+        //리뷰 작성자
+        User reviewer = findReview.getUser();
+        //리뷰 출처 매장
+        Store findStore = storeAdapter.queryStoreByReviewId(reviewId);
+        //responseDto 채우기
+        SpecificReviewElements elements = setElements(findReview, reviewer, findStore);
+
+        return SpecificReviewResponseDto.of(elements);
+    }
+
+    private SpecificReviewElements setElements(UserReviews findReview, User reviewer, Store findStore) {
+        return new SpecificReviewElements(
+                findReview.getContent(),
+                findReview.getReviewImagePath(),
+                findReview.getRating(),
+                findStore.getId(),
+                findReview.getUser().getNickName(),
+                thanksAdapter.queryAllThanksCountByUser(reviewer)
+        );
     }
 }

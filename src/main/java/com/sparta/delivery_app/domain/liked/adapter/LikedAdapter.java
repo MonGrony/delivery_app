@@ -1,7 +1,7 @@
 package com.sparta.delivery_app.domain.liked.adapter;
 
 import com.sparta.delivery_app.common.exception.errorcode.LikedErrorCode;
-import com.sparta.delivery_app.common.globalcustomexception.LikedNotFoundException;
+import com.sparta.delivery_app.common.globalcustomexception.liked.LikedNotFoundException;
 import com.sparta.delivery_app.domain.liked.entity.Liked;
 import com.sparta.delivery_app.domain.liked.repository.LikedRepository;
 import com.sparta.delivery_app.domain.store.entity.Store;
@@ -30,5 +30,9 @@ public class LikedAdapter {
 
     public boolean existsByStoreAndUser(Store store, User user) {
         return likedRepository.existsByStoreAndUser(store, user);
+    }
+
+    public Long queryAllLikeCountByUser(User user) {
+        return likedRepository.findPersonalLikeAllCount(user);
     }
 }

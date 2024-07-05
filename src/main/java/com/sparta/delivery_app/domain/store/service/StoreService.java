@@ -30,7 +30,6 @@ public class StoreService {
         User user = userAdapter.queryUserByEmail(email);
         Long userId = user.getId();
 
-
         log.info("Service-Check Registration Authority");
         User checkedManager = userAdapter.checkManagerRole(userId);
         storeAdapter.queryStoreHistory(checkedManager);
