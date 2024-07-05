@@ -2,6 +2,7 @@ package com.sparta.delivery_app.domain.thanks.service;
 
 import com.sparta.delivery_app.domain.order.entity.Order;
 import com.sparta.delivery_app.domain.review.dto.request.UserReviewAddRequestDto;
+import com.sparta.delivery_app.domain.review.entity.ReviewStatus;
 import com.sparta.delivery_app.domain.review.entity.UserReviews;
 import com.sparta.delivery_app.domain.store.dto.request.RegisterStoreRequestDto;
 import com.sparta.delivery_app.domain.store.entity.Store;
@@ -35,6 +36,7 @@ class ThanksServiceSupportTest {
 
             consumerRequestDtoList.add(consumerRequestDto);
         }
+
         managerRequestDto = new ManagersSignupRequestDto(
                 "manager@g.com",
                 "password123$",
@@ -54,6 +56,7 @@ class ThanksServiceSupportTest {
                 "http://",
                 5
         );
+
     }
 
     @Test
@@ -82,13 +85,21 @@ class ThanksServiceSupportTest {
         User Manager = User.saveUser(managerRequestDto);
         Store store = Store.of(storeRequestDto, Manager);
         Order orderByConsumer1 = Order.saveOrder(consumer1ForReviewer, store);
-        UserReviews reviewByConsumer1 = UserReviews.saveReview(orderByConsumer1, consumer1ForReviewer, userReviewAddRequestDto);
+
+        UserReviews userReviews = UserReviews.builder()
+                .id(1L)
+                .content(userReviewAddRequestDto.content())
+                .rating(userReviewAddRequestDto.rating())
+                .order(orderByConsumer1)
+                .user(consumer1ForReviewer)
+                .reviewStatus(ReviewStatus.ENABLE)
+                .build();
 
         //when - then
-        ThanksServiceSupport.addOrCancel(consumer2ForThanks, reviewByConsumer1.getId(), reviewByConsumer1);
+        ThanksServiceSupport.addOrCancel(consumer2ForThanks, userReviews.getId(), userReviews);
         assertThat(consumer2ForThanks.getThanksList().size()).isEqualTo(1);
 
-        ThanksServiceSupport.addOrCancel(consumer2ForThanks, reviewByConsumer1.getId(), reviewByConsumer1);
+        ThanksServiceSupport.addOrCancel(consumer2ForThanks, userReviews.getId(), userReviews);
         assertThat(consumer2ForThanks.getThanksList().size()).isEqualTo(0);
     }
 
